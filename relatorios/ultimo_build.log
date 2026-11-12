@@ -1,7 +1,7 @@
-Data UTC: 2026-11-12 14:39:01
-Commit: d764bd90bbf8d7c9b1ef6ce8ff807eb33ed194bf
+Data UTC: 2026-11-12 14:48:44
+Commit: 74315784bafe8545b478216c863dd2b400abef83
 Imagem: makarius/isabelle:Isabelle2026
-Comando: isabelle build -D . -j 2 -v
+Comando: isabelle build -D /home/isabelle/projeto -j 2 -v
 
 Unable to find image 'makarius/isabelle:Isabelle2026' locally
 Isabelle2026: Pulling from makarius/isabelle
@@ -12,18 +12,17 @@ d9d511d19a19: Pulling fs layer
 4f4fb700ef54: Pulling fs layer
 e25f76115ad3: Pulling fs layer
 72ff5e9b9923: Pulling fs layer
-4f4fb700ef54: Waiting
 390433ddf1e7: Waiting
-72ff5e9b9923: Waiting
+4f4fb700ef54: Waiting
 e25f76115ad3: Waiting
-d9d511d19a19: Verifying Checksum
+72ff5e9b9923: Waiting
 d9d511d19a19: Download complete
-435bf5c20694: Verifying Checksum
-435bf5c20694: Download complete
 390433ddf1e7: Verifying Checksum
 390433ddf1e7: Download complete
 4f4fb700ef54: Verifying Checksum
 4f4fb700ef54: Download complete
+435bf5c20694: Verifying Checksum
+435bf5c20694: Download complete
 0ddd5b993b86: Verifying Checksum
 0ddd5b993b86: Download complete
 435bf5c20694: Pull complete
@@ -39,6 +38,23 @@ e25f76115ad3: Pull complete
 72ff5e9b9923: Pull complete
 Digest: sha256:d6e7b8995f30a7e33172b750a1db9f5d46d39d8dcd59303c2390df4fdd5dae93
 Status: Downloaded newer image for makarius/isabelle:Isabelle2026
-docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: exec: "Isabelle/bin/isabelle": stat Isabelle/bin/isabelle: no such file or directory
+Started at Thu Nov 12 14:49:27 GMT 2026 (polyml-5.9.2_x86_64_32-linux on 30c9cacd09fc)
+ISABELLE_TOOL_JAVA_OPTIONS="-Djava.awt.headless=true -Xms512m -Xmx4g -Xss16m"
+ISABELLE_BUILD_OPTIONS=""
 
-Run 'docker run --help' for more information
+ML_PLATFORM="x86_64_32-linux"
+ML_HOME="/home/isabelle/Isabelle/contrib/polyml-5.9.2-6/x86_64_32-linux"
+ML_SYSTEM="polyml-5.9.2"
+ML_OPTIONS="--minheap 500 --enablegcsharing"
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/Metafisica
+Running Metafisica ...
+Metafisica: theory Metafisica.Teste
+Timing Metafisica (2 threads, 0.175s elapsed time, 0.159s cpu time, 0.000s GC time, factor 0.91)
+Finished Metafisica (0:00:01 elapsed time)
+
+Finished at Thu Nov 12 14:49:33 GMT 2026
+0:00:05 elapsed time
