@@ -11,7 +11,7 @@ CODE_FILE='relatorios/exit_code.txt'
   echo "Data UTC: $(date -u '+%Y-%m-%d %H:%M:%S')"
   echo "Commit: ${GITHUB_SHA:-local}"
   echo 'Imagem: makarius/isabelle:Isabelle2026'
-  echo 'Comando: isabelle build -D . -j 2 -v'
+  echo 'Comando: isabelle build -D /home/isabelle/projeto -j 2 -v'
   echo
 } > "$LOG"
 
@@ -27,10 +27,9 @@ else
   # A pasta do codigo e montada somente para leitura no container.
   # A compilacao e os heaps do Isabelle ficam dentro do container.
   docker run --rm \
-    --volume "$(pwd):/projeto:ro" \
-    --workdir /projeto \
+    --volume "$(pwd):/home/isabelle/projeto:ro" \
     makarius/isabelle:Isabelle2026 \
-    build -D . -j 2 -v >> "$LOG" 2>&1
+    build -D /home/isabelle/projeto -j 2 -v >> "$LOG" 2>&1
   code=$?
 fi
 
