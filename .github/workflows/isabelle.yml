@@ -1,0 +1,71 @@
+name: Verificacao automatica Isabelle2026
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.thy'
+      - '**/*.thy'
+      - 'ROOT'
+      - 'scripts/**'
+      - '.github/workflows/isabelle.yml'
+  workflow_dispatch:
+
+# O token so pode gravar relatorios neste repositorio.
+# Nao execute este workflow em pull requests de terceiros.
+permissions:
+  contents: write
+
+concurrency:
+  group: isabelle-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Obter arquivos do repositorio
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Executar Isabelle2026 em Docker
+        run: bash scripts/verificar.sh
+
+      - name: Guardar log completo como artefato
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-isabelle-${{ github.run_number }}
+          path: |
+            relatorios/ultimo_resultado.md
+            relatorios/ultimo_build.log
+            relatorios/exit_code.txt
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Atualizar relatorio no repositorio
+        if: always()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add relatorios/ultimo_resultado.md relatorios/ultimo_build.log relatorios/exit_code.txt
+          if ! git diff --cached --quiet; then
+            git commit -m 'Atualizar resultado da verificacao Isabelle [skip ci]'
+            git push origin HEAD:main
+          else
+            echo 'Relatorio sem alteracoes.'
+          fi
+
+      - name: Aplicar estado final da verificacao
+        if: always()
+        run: |
+          if [ ! -f relatorios/exit_code.txt ]; then
+            echo 'O script nao produziu relatorio.'
+            exit 1
+          fi
+          CODE="$(cat relatorios/exit_code.txt)"
+          echo "Isabelle exit code: $CODE"
+          test "$CODE" = '0'

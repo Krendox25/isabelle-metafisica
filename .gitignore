@@ -1,0 +1,9 @@
+# Lixo de editores e arquivos locais
+*.swp
+*.swo
+*~
+.DS_Store
+__pycache__/
+.isabelle/
+*.log
+!relatorios/ultimo_build.log
